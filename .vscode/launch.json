@@ -1,0 +1,24 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceRoot}/lib/index.js",
+            "stopOnEntry": false,
+            "args": ["http://10.0.225.63:3000/t/map/{z}/{x}/{y}/tile.png", "--zoom=1-2", "--extent=10.523333,-109.057222,41.145556,14.801944", "--output=D:\\nodeworkspace\\map-server-cli\\output"],
+            "cwd": "${workspaceRoot}",
+            "preLaunchTask": null,
+            "runtimeExecutable": null,
+            "runtimeArgs": [
+                "--nolazy",
+                "--require",
+                "@babel/register"
+            ],
+            "console": "internalConsole",
+            "sourceMaps": true,
+            "outFiles": ["${workspaceRoot}/lib/**/*.js"]
+        }
+    ]
+}

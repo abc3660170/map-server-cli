@@ -1,0 +1,48 @@
+{
+  "name": "map-server-cli",
+  "version": "1.0.0",
+  "description": "爬图并且创建微型地图服务",
+  "main": "index.js",
+  "scripts": {
+    "build:watch": "rollup -c rollup.config.js --watch",
+    "build": "rollup -c rollup.config.js",
+    "start": "npm run build && node lib/index.js ",
+    "serve": "node src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@10.0.225.88:30022/tchen/map-server-cli.git"
+  },
+  "keywords": [
+    "map",
+    "tilescache",
+    "server"
+  ],
+  "author": "tchen",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/register": "^7.4.4",
+    "@mapbox/tile-cover": "^3.0.2",
+    "@turf/turf": "^5.1.6",
+    "async": "^2.6.3",
+    "chalk": "^4.1.0",
+    "dateformat": "^3.0.3",
+    "http-server": "^0.11.1",
+    "humanize-duration": "^3.23.1",
+    "node-fetch": "^2.6.0",
+    "numeral": "^2.0.6",
+    "progress": "^2.0.3",
+    "yargs": "^15.0.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.7",
+    "@babel/preset-env": "^7.8.7",
+    "builtin-modules": "^3.1.0",
+    "core-js": "^3.6.5",
+    "rollup": "^2.1.0",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-commonjs": "^10.0.0",
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-resolve": "^5.0.1"
+  }
+}
