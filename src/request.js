@@ -1,4 +1,4 @@
-import async  from "async";
+import async from "async";
 import chalk from "chalk";
 import fs from "fs";
 import fetch from "node-fetch";
@@ -65,7 +65,10 @@ export default class fetchTilesAndStatistic {
         const fetched = await isFileExists(absoluteFileName);
         if(fetched){
             // 文件已请求过，跳过此次请求
+            this.count_succeeded++;
+            bar.tick();
             return callback();
+            
         }
         const taskStatistic = this.sinleTaskStatistic((new Date()).getTime());
         retry({times: argv.retry, interval: 1000}, async callback => {
@@ -73,14 +76,6 @@ export default class fetchTilesAndStatistic {
             let res;
             try {
                 res = await fetch(url, { headers, method});
-                // 级联创建图片所在文件夹
-                await createFolder(absoluteFileName);
-
-                // 图片已流的形式写入到磁盘
-                const dest = fs.createWriteStream(absoluteFileName);
-                res.body.pipe(dest);
-
-                taskStatistic.end(res, url);
                 
                 if(res.status !== 200){
                     const errMsg = 'Request failed (non -200 status)';
@@ -92,6 +87,14 @@ export default class fetchTilesAndStatistic {
                         self.prevKey = key;
                     }
                 } else {
+                     // 级联创建图片所在文件夹
+                    await createFolder(absoluteFileName);
+
+                    // 图片已流的形式写入到磁盘
+                    const dest = fs.createWriteStream(absoluteFileName);
+                    res.body.pipe(dest);
+
+                    taskStatistic.end(res, url);
                     bar.tick();
                     self.count_succeeded++;                   
                 }
