@@ -8,7 +8,7 @@ var validateurlparam = function(template, param) {
 };
 
 export default function(argv){
-    var url = argv._.slice(2)[0];
+    var url = decodeURIComponent(argv._.slice(2)[0]);
     if (!/^https?\:/.test(url)) {
         displayHelp();
         console.error('No url template provided');

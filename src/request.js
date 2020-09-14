@@ -60,7 +60,7 @@ export default class fetchTilesAndStatistic {
             .replace(/\{x\}/g, xyz[0])
             .replace(/\{y\}/g, xyz[1])
             .replace(/\{z\}/g, xyz[2]);
-        const fileName = (/\/(\d+\/\d+\/\d+)[^\d]/).exec(url)[1];
+        const fileName = getFileName(url);
         const absoluteFileName = `${argv.output}/${fileName}.png`;
         const fetched = await isFileExists(absoluteFileName);
         if(fetched){
@@ -140,7 +140,7 @@ export default class fetchTilesAndStatistic {
 
 async function isFileExists(file){
     return new Promise(resolve => {
-        fs.access(file, fs.constants.F_OK, err => resolve(!err))
+        fs.access(file, fs.constants.F_OK, err => resolve(!err));
     })  
 }
 
@@ -154,6 +154,24 @@ async function createFolder(file){
 function filesize(bytes) {
 	return Number((bytes / 1024).toFixed(2)) + 'kB';
 };
+
+function getFileName(url){
+    let fileName;
+    const xyzRegex = /\/(\d+\/\d+\/\d+)[^\d]/;
+    const googleRegex = /x=\d+\&y=\d+\&z=\d+/;
+    if(xyzRegex.test(url)){
+        fileName = xyzRegex.exec(url)[1]
+    } else if (googleRegex.test(url)){
+        const x = /x=(\d+)/.exec(url)[1]
+        const y = /y=(\d+)/.exec(url)[1]
+        const z = /z=(\d+)/.exec(url)[1]
+        fileName = `${z}/${x}/${y}`;
+    } else {
+        throw new Error('提供的 url template 不能满足');
+        process.exit(1);
+    }
+    return fileName;
+}
     
 
 
